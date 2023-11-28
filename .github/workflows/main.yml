@@ -3,7 +3,7 @@ name: 部署Va数据统计-web端
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   build:
     runs-on: ubuntu-latest
