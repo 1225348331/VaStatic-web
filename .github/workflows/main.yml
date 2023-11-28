@@ -1,0 +1,45 @@
+name: 部署Va数据统计-web端
+
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. 检出分支
+        uses: actions/checkout@v3
+        
+      - name: 2. 安装 Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: 3. 缓存 node_modules
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: node_modules
+          key: ${{runner.OS}}-${{hashFiles('package.json')}}
+
+      - name: 4. 安装依赖
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          npm install --save
+
+      - name: 5. 生成静态文件
+        run: |
+          npm run build
+    
+      - name: 7. 推送到服务器私有仓库
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.USER_PASS }}
+          REMOTE_HOST: ${{ secrets.USER_HOST }}
+          REMOTE_USER: ${{ secrets.USER_NAME }}
+          SOURCE: "dist/"
+          TARGET: "/opt/1panel/apps/openresty/openresty/www/sites/music-audio/index" #目标服务器路径
+          # EXCLUDE: "/dist/, /node_modules/" # 排除文件夹
+
+
