@@ -200,7 +200,7 @@ const selectFilter = (value) => {
         <div class="DPCIInfoContent">
           <div v-for="item in Statistics?.groupColor">
             <p type="info" v-for="ColorItem in item">
-              <span>{{ ColorItem.data["Product Description"] }}</span>
+              <span style="user-select: none;">{{ ColorItem.data["Product Description"] }}</span>
               <span>{{ ColorItem.data["DPCI"] }}</span>
             </p>
           </div>
