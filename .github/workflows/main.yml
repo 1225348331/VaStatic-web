@@ -39,7 +39,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.USER_HOST }}
           REMOTE_USER: ${{ secrets.USER_NAME }}
           SOURCE: "dist/"
-          TARGET: "/opt/1panel/apps/openresty/openresty/www/sites/music-audio/index" #目标服务器路径
+          TARGET: "/opt/1panel/apps/openresty/openresty/www/sites/va.jiangyuhui.top/index" #目标服务器路径
           # EXCLUDE: "/dist/, /node_modules/" # 排除文件夹
 
 
