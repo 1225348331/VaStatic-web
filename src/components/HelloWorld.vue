@@ -116,7 +116,7 @@ const selectFilter = (value) => {
   FactoryID.value = tableData.value[0]?.["Factory ID"];
   FactoryName.value = tableData.value[0]?.["Factory Name"];
   Statistics.value = staticData(tableData.value);
-  console.log(Statistics.value.tableColor)
+  console.log(Statistics.value.tableColor);
 
   rowProps.value = (row) => {
     let color = "#fff";
@@ -130,6 +130,16 @@ const selectFilter = (value) => {
       style: `background-color:${color};--n-merged-td-color:${color};`,
     };
   };
+};
+
+const copy = async (data) => {
+  let contents = "";
+  data.forEach((item) => {
+    contents += item.data["DPCI"] + "\n";
+  });
+  await navigator.clipboard.writeText(contents);
+
+  message.success("复制成功！");
 };
 </script>
 <template>
@@ -198,10 +208,16 @@ const selectFilter = (value) => {
       <div class="DPCIInfo info">
         <h2>DPCI</h2>
         <div class="DPCIInfoContent">
-          <div v-for="item in Statistics?.groupColor">
+          <div
+            style="cursor: pointer"
+            @click="copy(item)"
+            v-for="item in Statistics?.groupColor"
+          >
             <p type="info" v-for="ColorItem in item">
-              <span style="user-select: none;">{{ ColorItem.data["Product Description"] }}</span>
-              <span>{{ ColorItem.data["DPCI"] }}</span>
+              <span style="user-select: none">
+                {{ ColorItem.data["Product Description"] }}
+              </span>
+              <span style="user-select: none">{{ ColorItem.data["DPCI"] }}</span>
             </p>
           </div>
         </div>
