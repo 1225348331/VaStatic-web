@@ -43,7 +43,7 @@ const formatSize = {
 export function staticData(tableData) {
   // 定义正则表达式，用于匹配颜色和尺码部分
   const regex =
-    /^(.+?)\s+((?:XX\s*Large|X\s*Large|Large|Medium|X\s*Small|Small|XS|S|M|L|XL|XXL))$/;
+    /^(.+?)\s+((?:XX\s*Large|X\s*Large|Large|Medium|X\s*Small|Small|XS|S|M|L|XL|XXL|1X|2X|3X|4X))$/;
   // 统计数据
   let staticData = [];
 
