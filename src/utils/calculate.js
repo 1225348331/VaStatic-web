@@ -30,6 +30,20 @@ const calTableColor = (data) => {
   return obj;
 };
 
+// 自定义排序函数  
+const customSort = (objList) => {
+  return _.sortBy(objList, (obj) => {
+      const size = obj.size;
+      if (_.isNumber(size)) {
+          return size;
+      } else if (_.isString(size) && /^\d+$/.test(size)) {
+          return parseInt(size, 10);
+      } else {
+          return obj["DPCI"];
+      }
+  });
+};
+
 // 尺码归类
 const formatSize = {
   XXL: "XX Large",
@@ -60,12 +74,11 @@ export function staticData(tableData) {
     });
   });
 
+
   let groupColor = _.mapValues(
     _.groupBy(staticData, (item) => item.color),
-    (group) => _.orderBy(group, (item) => parseInt(item.size))
+    (group) => customSort(group)
   );
-
-  // let groupColor = _.groupBy(staticData, (item) => item.color);
   let groupSize = _.groupBy(staticData, (item) => item.size);
   let vaColor = calculate(groupColor);
   let vaSize = calculate(groupSize);
