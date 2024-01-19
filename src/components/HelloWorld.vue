@@ -142,6 +142,8 @@ const copy = async (data) => {
 
   message.success("复制成功！");
 };
+
+
 </script>
 <template>
   <n-scrollbar class="content" style="max-height: 100vh; min-height: 100vh">

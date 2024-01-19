@@ -60,11 +60,17 @@ export function staticData(tableData) {
     });
   });
 
-  let groupColor = _.groupBy(staticData, (item) => item.color);
+  let groupColor = _.mapValues(
+    _.groupBy(staticData, (item) => item.color),
+    (group) => _.orderBy(group, (item) => parseInt(item.size))
+  );
+
+  // let groupColor = _.groupBy(staticData, (item) => item.color);
   let groupSize = _.groupBy(staticData, (item) => item.size);
   let vaColor = calculate(groupColor);
   let vaSize = calculate(groupSize);
   let tableColor = calTableColor(groupColor);
+  console.log(groupColor);
 
   return {
     vaColor,
