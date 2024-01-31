@@ -93,14 +93,17 @@ export function staticData(tableData) {
       data: item,
     });
   });
-
+  // 按颜色进行分类
   let groupColor = _.mapValues(
     _.groupBy(staticData, (item) => item.color),
     (group) => customSort(group)
   );
+  // 按尺寸进行分类
   let groupSize = _.groupBy(staticData, (item) => item.size);
-  let vaColor = calculate(groupColor); // 颜色统计
-  let vaSize = calculate(groupSize); // 尺寸统计
+  // 颜色统计
+  let vaColor = calculate(groupColor);
+  // 尺寸统计 & 排序
+  let vaSize = calculate(groupSize);
   const sortedKeys = _.sortBy(Object.keys(vaSize), (size) => {
     if (_.isNumber(size)) {
       return size;
@@ -114,10 +117,8 @@ export function staticData(tableData) {
   });
   let vaSortSize = {};
   sortedKeys.forEach((key) => (vaSortSize[key] = vaSize[key]));
-  console.log(vaSortSize);
+  // 表格颜色
   let tableColor = calTableColor(groupColor);
-  console.log(vaSize);
-  console.log(groupColor);
 
   return {
     vaColor, // 颜色统计
