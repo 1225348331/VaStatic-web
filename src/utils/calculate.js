@@ -30,17 +30,37 @@ const calTableColor = (data) => {
   return obj;
 };
 
-// 自定义排序函数  
+const customSortOrder = [
+  "XS",
+  "X Small",
+  "S",
+  "Small",
+  "M",
+  "Medium",
+  "L",
+  "Large",
+  "XL",
+  "X Large",
+  "XXL",
+  "XX Large",
+  "1X",
+  "2X",
+  "3X",
+  "4X",
+];
+// 自定义排序函数
 const customSort = (objList) => {
   return _.sortBy(objList, (obj) => {
-      const size = obj.size;
-      if (_.isNumber(size)) {
-          return size;
-      } else if (_.isString(size) && /^\d+$/.test(size)) {
-          return parseInt(size, 10);
-      } else {
-          return obj["DPCI"];
-      }
+    const size = obj.size;
+    if (_.isNumber(size)) {
+      return size;
+    } else if (_.isString(size) && /^\d+$/.test(size)) {
+      return parseInt(size, 10);
+    } else {
+      if (customSortOrder.includes(size)) return customSortOrder.indexOf(size);
+      return Infinity;
+      // return obj["DPCI"];
+    }
   });
 };
 
@@ -74,21 +94,36 @@ export function staticData(tableData) {
     });
   });
 
-
   let groupColor = _.mapValues(
     _.groupBy(staticData, (item) => item.color),
     (group) => customSort(group)
   );
   let groupSize = _.groupBy(staticData, (item) => item.size);
-  let vaColor = calculate(groupColor);
-  let vaSize = calculate(groupSize);
+  let vaColor = calculate(groupColor); // 颜色统计
+  let vaSize = calculate(groupSize); // 尺寸统计
+  const sortedKeys = _.sortBy(Object.keys(vaSize), (size) => {
+    if (_.isNumber(size)) {
+      return size;
+    } else if (_.isString(size) && /^\d+$/.test(size)) {
+      return parseInt(size, 10);
+    } else {
+      if (customSortOrder.includes(size)) return customSortOrder.indexOf(size);
+      return Infinity;
+      // return obj["DPCI"];
+    }
+  });
+  let vaSortSize = {};
+  sortedKeys.forEach((key) => (vaSortSize[key] = vaSize[key]));
+  console.log(vaSortSize);
   let tableColor = calTableColor(groupColor);
+  console.log(vaSize);
   console.log(groupColor);
 
   return {
-    vaColor,
-    vaSize,
-    groupColor,
+    vaColor, // 颜色统计
+    vaSize, // 尺寸统计
+    vaSortSize, // 尺寸排序统计
+    groupColor, // DPCI统计 按尺码排序
     tableColor,
   };
 }

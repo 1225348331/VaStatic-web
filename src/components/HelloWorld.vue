@@ -94,7 +94,6 @@ const handleFinish = ({ file, event }) => {
   // 升序排列
   data.value = _.sortBy(data.value, "DPCI");
   tableData.value = data.value;
-  console.log(tableData.value)
   // 所有的Spark PID
   _.uniqBy(data.value, "Spark PID").forEach((item) => {
     options.value.push({
@@ -203,7 +202,7 @@ const copy = async (data) => {
       </div>
       <div class="sizeInfo info">
         <h2>尺寸统计</h2>
-        <p v-for="(item, key) in Statistics?.vaSize">
+        <p v-for="(item, key) in Statistics?.vaSortSize">
           <n-tag :bordered="false" type="info">{{ key }}</n-tag>
           {{ item }}
         </p>
